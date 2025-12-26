@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="lx-page-session" content="">
+    <title>EcoChain - Interactive Ecosystem Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>🌿 EcoChain</h1>
+            <p class="subtitle">Balance your ecosystem through rounds of cause and effect</p>
+        </header>
+
+        <div id="game-screen">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="screen active">
+                <div class="welcome-content">
+                    <h2>Welcome to EcoChain!</h2>
+                    <p>Manage a living ecosystem by balancing three species:</p>
+                    <div class="species-intro">
+                        <div class="species-card">
+                            <div class="species-icon">🌱</div>
+                            <h3>Plants</h3>
+                            <p>Producers that grow each round</p>
+                        </div>
+                        <div class="species-card">
+                            <div class="species-icon">🐰</div>
+                            <h3>Rabbits</h3>
+                            <p>Herbivores that eat plants</p>
+                        </div>
+                        <div class="species-card">
+                            <div class="species-icon">🦊</div>
+                            <h3>Foxes</h3>
+                            <p>Predators that hunt rabbits</p>
+                        </div>
+                    </div>
+                    <p class="goal">🎯 <strong>Goal:</strong> Keep all species alive for 10 rounds!</p>
+                    <button id="start-btn" class="btn-primary">Start Game</button>
+                </div>
+            </div>
+
+            <!-- Game Play Screen -->
+            <div id="play-screen" class="screen">
+                <div class="game-info">
+                    <div class="round-counter">
+                        Round: <span id="round-number">1</span>/10
+                    </div>
+                    <div class="status-message" id="status-message">
+                        Choose your action for this round
+                    </div>
+                </div>
+
+                <div class="ecosystem-display">
+                    <div class="population-grid">
+                        <div class="population-card">
+                            <div class="population-icon">🌱</div>
+                            <div class="population-name">Plants</div>
+                            <div class="population-count" id="plants-count">15</div>
+                            <div class="population-bar">
+                                <div class="population-bar-fill plants-bar" id="plants-bar"></div>
+                            </div>
+                        </div>
+                        <div class="population-card">
+                            <div class="population-icon">🐰</div>
+                            <div class="population-name">Rabbits</div>
+                            <div class="population-count" id="rabbits-count">8</div>
+                            <div class="population-bar">
+                                <div class="population-bar-fill rabbits-bar" id="rabbits-bar"></div>
+                            </div>
+                        </div>
+                        <div class="population-card">
+                            <div class="population-icon">🦊</div>
+                            <div class="population-name">Foxes</div>
+                            <div class="population-count" id="foxes-count">3</div>
+                            <div class="population-bar">
+                                <div class="population-bar-fill foxes-bar" id="foxes-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="energy-flow" id="energy-flow">
+                        <div class="flow-line">☀️ → 🌱 → 🐰 → 🦊</div>
+                    </div>
+                </div>
+
+                <div class="action-panel">
+                    <h3>Choose Your Action:</h3>
+                    <div class="actions-grid">
+                        <button class="action-btn" data-action="add-plants">
+                            <div class="action-icon">🌱+</div>
+                            <div class="action-title">Plant Seeds</div>
+                            <div class="action-desc">Add more plants</div>
+                        </button>
+                        <button class="action-btn" data-action="add-rabbits">
+                            <div class="action-icon">🐰+</div>
+                            <div class="action-title">Release Rabbits</div>
+                            <div class="action-desc">Add more rabbits</div>
+                        </button>
+                        <button class="action-btn" data-action="add-foxes">
+                            <div class="action-icon">🦊+</div>
+                            <div class="action-title">Release Foxes</div>
+                            <div class="action-desc">Add more foxes</div>
+                        </button>
+                        <button class="action-btn" data-action="do-nothing">
+                            <div class="action-icon">⏸️</div>
+                            <div class="action-title">Observe</div>
+                            <div class="action-desc">Let nature balance</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feedback-panel" id="feedback-panel">
+                    <div id="feedback-content"></div>
+                </div>
+            </div>
+
+            <!-- End Screen -->
+            <div id="end-screen" class="screen">
+                <div class="end-content">
+                    <div id="end-result"></div>
+                    <div id="end-summary"></div>
+                    <button id="restart-btn" class="btn-primary">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
