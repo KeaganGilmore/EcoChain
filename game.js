@@ -30,6 +30,16 @@ function emitLxEvent(eventType, data = {}) {
     window.lxEvents.push(event);
 }
 
+// Ecosystem constants
+const ECOSYSTEM_CONSTANTS = {
+    PLANT_GROWTH_RATE: 0.3,
+    PLANTS_PER_RABBIT: 2,
+    RABBIT_BIRTH_RATE: 0.2,
+    RABBIT_STARVATION_RATE: 0.3,
+    FOX_BIRTH_RATE: 0.15,
+    FOX_STARVATION_RATE: 0.4
+};
+
 // Game State
 class EcoGame {
     constructor() {
@@ -136,7 +146,7 @@ class EcoGame {
         };
 
         // Plants grow naturally (photosynthesis)
-        const plantGrowth = Math.floor(this.populations.plants * 0.3);
+        const plantGrowth = Math.floor(this.populations.plants * ECOSYSTEM_CONSTANTS.PLANT_GROWTH_RATE);
         this.populations.plants += plantGrowth;
         changes.plants += plantGrowth;
         if (plantGrowth > 0) {
@@ -145,18 +155,18 @@ class EcoGame {
 
         // Rabbits eat plants
         const rabbitsNeedFood = this.populations.rabbits;
-        const plantsEaten = Math.min(this.populations.plants, rabbitsNeedFood * 2);
+        const plantsEaten = Math.min(this.populations.plants, rabbitsNeedFood * ECOSYSTEM_CONSTANTS.PLANTS_PER_RABBIT);
         this.populations.plants -= plantsEaten;
         changes.plants -= plantsEaten;
         
         // Rabbits reproduce or starve based on food
         if (this.populations.plants >= rabbitsNeedFood) {
-            const rabbitBirth = Math.floor(this.populations.rabbits * 0.2);
+            const rabbitBirth = Math.floor(this.populations.rabbits * ECOSYSTEM_CONSTANTS.RABBIT_BIRTH_RATE);
             this.populations.rabbits += rabbitBirth;
             changes.rabbits += rabbitBirth;
             changes.events.push(`🐰 Rabbits ate ${plantsEaten} plants and ${rabbitBirth} were born`);
         } else {
-            const rabbitStarve = Math.floor(this.populations.rabbits * 0.3);
+            const rabbitStarve = Math.floor(this.populations.rabbits * ECOSYSTEM_CONSTANTS.RABBIT_STARVATION_RATE);
             this.populations.rabbits -= rabbitStarve;
             changes.rabbits -= rabbitStarve;
             changes.events.push(`🐰 ${rabbitStarve} rabbits starved due to lack of plants`);
@@ -164,18 +174,19 @@ class EcoGame {
 
         // Foxes hunt rabbits
         const foxesNeedFood = this.populations.foxes;
+        const rabbitsBeforeHunt = this.populations.rabbits;
         const rabbitsHunted = Math.min(this.populations.rabbits, foxesNeedFood);
         this.populations.rabbits -= rabbitsHunted;
         changes.rabbits -= rabbitsHunted;
 
-        // Foxes reproduce or starve based on food
-        if (this.populations.rabbits >= foxesNeedFood) {
-            const foxBirth = Math.floor(this.populations.foxes * 0.15);
+        // Foxes reproduce or starve based on food (check population BEFORE hunting)
+        if (rabbitsBeforeHunt >= foxesNeedFood) {
+            const foxBirth = Math.floor(this.populations.foxes * ECOSYSTEM_CONSTANTS.FOX_BIRTH_RATE);
             this.populations.foxes += foxBirth;
             changes.foxes += foxBirth;
             changes.events.push(`🦊 Foxes hunted ${rabbitsHunted} rabbits and ${foxBirth} were born`);
         } else {
-            const foxStarve = Math.floor(this.populations.foxes * 0.4);
+            const foxStarve = Math.floor(this.populations.foxes * ECOSYSTEM_CONSTANTS.FOX_STARVATION_RATE);
             this.populations.foxes -= foxStarve;
             changes.foxes -= foxStarve;
             changes.events.push(`🦊 ${foxStarve} foxes starved due to lack of rabbits`);
